@@ -1,0 +1,17 @@
+{% extends "password_creation/base.html" %}
+{% block content %}
+<div>
+    <form method="POST" id="CharLongForm">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Generate Password" name="charlongbutton">
+    </form>
+</div>
+<div>
+    <form method="POST" id="PasswordSaveForm">
+        {% csrf_token %}
+        {{ personal_pass_form }}
+        <input type="submit" value="Save this password" name="passwordsavebutton">
+    </form>
+</div>
+{% endblock content %}
