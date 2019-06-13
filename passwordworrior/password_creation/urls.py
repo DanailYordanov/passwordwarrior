@@ -6,10 +6,10 @@ urlpatterns = [
     path('personal-passwords/', pass_views.personal_passwords,
          name='personal-passwords'),
     path('success/', pass_views.password_success, name='password-success'),
-    path('password-creation/', pass_views.personal_password_creation,
+    path('personal-password/create/', pass_views.PersonalPasswordCreateView.as_view(),
          name='personal-password-creation'),
-    #     path('personal-password/<int:id>/delete',
-    #          pass_views.personal_password_delete, name='personal-password-delete'),
-    path('personal-password/<int:pk>/delete',
-         pass_views.PersonalPasswordDeleteView.as_view(), name='personal-password-delete')
+    path('personal-password/<int:pk>/update/',
+         pass_views.PersonalPasswordUpdateView.as_view(), name='personal-password-update'),
+    path('personal-password/<int:pk>/delete/',
+         pass_views.PersonalPasswordDeleteView.as_view(), name='personal-password-delete'),
 ]

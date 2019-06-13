@@ -32,10 +32,11 @@ def password_generator(request):
 def personal_passwords(request):
     personal_passwords_context_data = []
     user_personal_passwords = Passwords.objects.filter(user=request.user)
-    for persoanl_password_object in user_personal_passwords:
+    for personal_password_object in user_personal_passwords:
         personal_password_data = {
-            'password': persoanl_password_object.password,
-            'app_name': persoanl_password_object.app_name,
+            'password': personal_password_object.password,
+            'app_name': personal_password_object.app_name,
+            'id': personal_password_object.id,
         }
         personal_passwords_context_data.append(personal_password_data)
     context = {'personal_passwords': personal_passwords_context_data}
@@ -50,20 +51,32 @@ def password_success(request):
     return render(request, 'password_creation/password_success.html', context)
 
 
-@login_required
-def personal_password_creation(request):
-    if request.method == 'POST':
-        form = PasswordCreationForm(request.POST)
-        if form.is_valid():
-            form.instance.user = request.user
-            form.save()
-            return redirect('personal-passwords')
-    else:
-        form = PasswordCreationForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'password_creation/personal_password_creation.html', context)
+class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
+    model = Passwords
+    fields = ['app_name', 'password']
+    template_name = 'password_creation/personal_password_creation.html'
+    success_url = reverse_lazy('personal-passwords')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class PersonalPasswordUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Passwords
+    fields = ['app_name', 'password']
+    template_name = 'password_creation/personal_password_creation.html'
+    success_url = reverse_lazy('personal-passwords')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        personal_password = self.get_object()
+        if self.request.user == personal_password.user:
+            return True
+        return False
 
 
 class PersonalPasswordDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
