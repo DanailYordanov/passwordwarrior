@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
-    ListView,
-    DetailView,
     CreateView,
     UpdateView,
     DeleteView
@@ -13,6 +12,7 @@ from django.views.generic import (
 from .forms import CharLongForm, PasswordCreationForm
 from .models import Passwords
 import secrets
+from cryptography.fernet import Fernet
 
 
 def password_generator(request):
@@ -26,6 +26,9 @@ def password_generator(request):
         'form': form
     }
     return render(request, 'password_creation/password_generator.html', context)
+
+# def decrypt_key(request.user):
+#     return request.user.
 
 
 @login_required
@@ -58,6 +61,7 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('personal-passwords')
 
     def form_valid(self, form):
+        key = Fernet.generate_key.key()
         form.instance.user = self.request.user
         return super().form_valid(form)
 

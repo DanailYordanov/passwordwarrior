@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'passwordworrior.urls'
+ROOT_URLCONF = 'passwordwarrior.urls'
 
 TEMPLATES = [
     {
@@ -64,7 +64,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'passwordworrior.wsgi.application'
+WSGI_APPLICATION = 'passwordwarrior.wsgi.application'
 
 
 DATABASES = {
