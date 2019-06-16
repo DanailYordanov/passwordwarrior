@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     CreateView,
     UpdateView,
+    ListView,
     DeleteView
 )
 from .forms import CharLongForm, PasswordCreationForm
@@ -58,7 +59,7 @@ def personal_passwords(request):
         }
         personal_passwords_context_data.append(personal_password_data)
     context = {
-        'personal_passwords': personal_passwords_context_data
+        'personal_passwords': personal_passwords_context_data,
     }
     return render(request, 'password_creation/personal_passwords.html', context)
 

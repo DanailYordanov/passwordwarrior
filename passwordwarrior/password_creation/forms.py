@@ -15,3 +15,6 @@ class PasswordCreationForm(forms.ModelForm):
     class Meta:
         model = Passwords
         fields = ['app_name', 'password']
+        widgets = {
+            'app_name': forms.Textarea(attrs={})
+        }
