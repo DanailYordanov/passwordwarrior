@@ -1,4 +1,5 @@
 from passwordwarrior.settings import SECRET_KEY
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -20,7 +21,7 @@ def password_generator(request):
     if request.method == 'POST':
         form = CharLongForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect(reverse("password-success"))
+            return redirect("password-success")
     else:
         form = CharLongForm()
     context = {
@@ -56,7 +57,9 @@ def personal_passwords(request):
             'id': personal_password_object.id,
         }
         personal_passwords_context_data.append(personal_password_data)
-    context = {'personal_passwords': personal_passwords_context_data}
+    context = {
+        'personal_passwords': personal_passwords_context_data
+    }
     return render(request, 'password_creation/personal_passwords.html', context)
 
 
