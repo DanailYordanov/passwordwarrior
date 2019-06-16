@@ -1,10 +1,5 @@
 from passwordwarrior.settings import SECRET_KEY
-import base64
-from cryptography.fernet import Fernet
-from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
@@ -16,6 +11,9 @@ from django.views.generic import (
 )
 from .forms import CharLongForm, PasswordCreationForm
 from .models import Passwords
+import base64
+import secrets
+from cryptography.fernet import Fernet
 
 
 def password_generator(request):
@@ -31,6 +29,21 @@ def password_generator(request):
     return render(request, 'password_creation/password_generator.html', context)
 
 
+def password_success(request):
+    password = secrets.token_hex(int(request.POST['char_long']))
+    context = {
+        'password': password
+    }
+    return render(request, 'password_creation/password_success.html', context)
+
+
+def password_decrypter(password):
+    key = base64.urlsafe_b64encode(SECRET_KEY.encode())
+    f = Fernet(key)
+    decrypted_password = f.decrypt(password.encode())
+    return decrypted_password.decode()
+
+
 @login_required
 def personal_passwords(request):
     personal_passwords_context_data = []
@@ -38,21 +51,13 @@ def personal_passwords(request):
         user=request.user)
     for personal_password_object in user_personal_passwords:
         personal_password_data = {
-            'password': personal_password_object.password,
+            'password': password_decrypter(personal_password_object.password),
             'app_name': personal_password_object.app_name,
             'id': personal_password_object.id,
         }
         personal_passwords_context_data.append(personal_password_data)
     context = {'personal_passwords': personal_passwords_context_data}
     return render(request, 'password_creation/personal_passwords.html', context)
-
-
-def password_success(request):
-    password = secrets.token_hex(int(request.POST['char_long']))
-    context = {
-        'password': password
-    }
-    return render(request, 'password_creation/password_success.html', context)
 
 
 class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
