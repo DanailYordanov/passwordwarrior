@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinLengthValidator
 
 
 class Passwords(models.Model):
@@ -14,17 +13,3 @@ class Passwords(models.Model):
 
     class Meta:
         verbose_name_plural = 'passwords'
-
-
-class Decrypter(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='decrypter')
-    decrypt_key = models.CharField(
-        max_length=300,
-        null=False,
-        blank=False,
-        validators=[MinLengthValidator(16)],
-    )
-
-    def __str__(self):
-        return f"{self.user.username}' decrypter"

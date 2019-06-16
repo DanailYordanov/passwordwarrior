@@ -1,4 +1,6 @@
 from passwordwarrior.settings import SECRET_KEY
+import base64
+from cryptography.fernet import Fernet
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
@@ -12,9 +14,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .forms import CharLongForm, PasswordCreationForm, CheckDecryptKeyForm
-from .models import Passwords, Decrypter
-import secrets
+from .forms import CharLongForm, PasswordCreationForm
+from .models import Passwords
 
 
 def password_generator(request):
@@ -32,25 +33,17 @@ def password_generator(request):
 
 @login_required
 def personal_passwords(request):
-    context = {}
-    if request.method == 'POST':
-        form = CheckDecryptKeyForm(request.POST, user=request.user)
-        context['form'] = form
-        if form.is_valid():
-            personal_passwords_context_data = []
-            user_personal_passwords = Passwords.objects.filter(
-                user=request.user)
-            for personal_password_object in user_personal_passwords:
-                personal_password_data = {
-                    'password': personal_password_object.password,
-                    'app_name': personal_password_object.app_name,
-                    'id': personal_password_object.id,
-                }
-                personal_passwords_context_data.append(personal_password_data)
-            context['personal_passwords'] = personal_passwords_context_data
-    else:
-        form = CheckDecryptKeyForm(user=request.user)
-        context['form'] = form
+    personal_passwords_context_data = []
+    user_personal_passwords = Passwords.objects.filter(
+        user=request.user)
+    for personal_password_object in user_personal_passwords:
+        personal_password_data = {
+            'password': personal_password_object.password,
+            'app_name': personal_password_object.app_name,
+            'id': personal_password_object.id,
+        }
+        personal_passwords_context_data.append(personal_password_data)
+    context = {'personal_passwords': personal_passwords_context_data}
     return render(request, 'password_creation/personal_passwords.html', context)
 
 
@@ -69,9 +62,12 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('personal-passwords')
 
     def form_valid(self, form):
-        user_decrypt_key = 
         password = form.cleaned_data.get('password')
-        cipher = AES.new(key)
+        key = base64.urlsafe_b64encode(SECRET_KEY.encode())
+        f = Fernet(key)
+        password = f.encrypt(password.encode())
+        password = password.decode()
+        form.instance.password = password
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -81,6 +77,19 @@ class PersonalPasswordUpdateView(LoginRequiredMixin, UserPassesTestMixin, Update
     fields = ['app_name', 'password']
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Passwords, pk=self.kwargs['pk'])
+
+    def get_initial(self):
+        initial = super(PersonalPasswordUpdateView, self).get_initial()
+        self.object = self.get_object()
+        key = base64.urlsafe_b64encode(SECRET_KEY.encode())
+        f = Fernet(key)
+        decrypted_password = self.object.password
+        decrypted_password = f.decrypt(decrypted_password.encode())
+        initial['password'] = decrypted_password.decode()
+        return initial
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -102,18 +111,3 @@ class PersonalPasswordDeleteView(LoginRequiredMixin, UserPassesTestMixin, Delete
         if self.request.user == personal_password.user:
             return True
         return False
-
-
-class DecrypterCreateView(LoginRequiredMixin, CreateView):
-    model = Decrypter
-    fields = ('decrypt_key',)
-    template_name = 'password_creation/decrypter_create.html'
-    success_url = reverse_lazy('personal-password-creation')
-
-    def form_valid(self, form):
-        decrypt_key = form.cleaned_data.get('decrypt_key')
-        cipher = AES.new(SECRET_KEY, AES.MODE_ECB)
-        encrypted_key = cipher.encrypt(decrypt_key)
-        form.instance.decrypt_key = encrypted_key
-        form.instance.user = self.request.user
-        return super().form_valid(form)
