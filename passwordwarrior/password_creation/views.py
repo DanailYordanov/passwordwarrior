@@ -71,8 +71,7 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
         key = base64.urlsafe_b64encode(SECRET_KEY.encode())
         f = Fernet(key)
         password = f.encrypt(password.encode())
-        password = password.decode()
-        form.instance.password = password
+        form.instance.password = password.decode()
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -97,6 +96,11 @@ class PersonalPasswordUpdateView(LoginRequiredMixin, UserPassesTestMixin, Update
         return initial
 
     def form_valid(self, form):
+        password = form.cleaned_data.get('password')
+        key = base64.urlsafe_b64encode(SECRET_KEY.encode())
+        f = Fernet(key)
+        password = f.encrypt(password.encode())
+        form.instance.password = password.decode()
         form.instance.user = self.request.user
         return super().form_valid(form)
 
