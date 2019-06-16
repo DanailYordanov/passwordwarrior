@@ -12,4 +12,6 @@ urlpatterns = [
          pass_views.PersonalPasswordUpdateView.as_view(), name='personal-password-update'),
     path('personal-password/<int:pk>/delete/',
          pass_views.PersonalPasswordDeleteView.as_view(), name='personal-password-delete'),
+    path('decrypter/create', pass_views.DecrypterCreateView.as_view(),
+         name='decrypter-create')
 ]
