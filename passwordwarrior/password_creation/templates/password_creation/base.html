@@ -8,11 +8,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'password_creation/main.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <script src="https://kit.fontawesome.com/284d4ca8bd.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
+    <nav
+        class="animated fadeIn delay-0.5s navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav">
                 <li class="nav-item active">
@@ -27,9 +29,8 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
                         </button>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu animated fadeIn delay-0.0001s">
                             <a class="dropdown-item" href="{% url 'personal-passwords' %}">Personal Passwords</a>
-                            <a class="dropdown-item" href="{% url 'personal-password-creation' %}">Save Password</a>
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
                         </div>
                     </div>
