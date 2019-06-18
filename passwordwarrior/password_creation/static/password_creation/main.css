@@ -8,25 +8,7 @@ body {
   background-color: #212529 !important;
 }
 
-.small {
-  font-size: 20px !important;
-}
-
-.medium {
-  font-size: 30px !important;
-}
-
-.large {
-  font-size: 40px !important;
-}
-
-.text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: auto;
-}
-
+ /* Personal passwords view  */
 .grid-container {
   align-content: start;
   margin-left: 100px;
@@ -36,17 +18,25 @@ body {
   grid-gap: 50px;
   grid-template-columns: repeat(3, minmax(auto, 350px));
 }
-  
-.grid-item {
+.grid-item{
   font-size: 30px;
 }
 
 .grid-item-icons {
+  margin-top: 5px;
   text-align: right;
+  color: #6c757d;
 }
 
-#NoPasswords {
+.no-passwords {
   font-size: 40px;
+}
+
+/* Personal passwords view */
+
+a:link {
+  color: #6c757d;
+  text-decoration: none;
 }
 
 .button {
@@ -86,49 +76,22 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
 }
 
-@-webkit-keyframes zoomInUp {
-  from {
-    opacity: 0;
-    -webkit-transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
-    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
-    -webkit-animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
 
-  60% {
-    opacity: 1;
-    -webkit-transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
-    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
-    -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  }
+.small {
+  font-size: 20px !important;
 }
 
-@keyframes zoomInUp {
-  from {
-    opacity: 0;
-    -webkit-transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
-    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
-    -webkit-animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
-
-  60% {
-    opacity: 1;
-    -webkit-transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
-    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
-    -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  }
+.medium {
+  font-size: 30px !important;
 }
 
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-
-  -webkit-animation-name: zoomInUp;
-  animation-name: zoomInUp;
+.large {
+  font-size: 40px !important;
 }
 
+.text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: auto;
+}
