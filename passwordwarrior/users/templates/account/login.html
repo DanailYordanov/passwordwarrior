@@ -29,17 +29,29 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% else %}
-<p class="small animated">{% blocktrans %}If you have not created an account yet, then please
-<a class="small animated" href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+<div class="animated zoomInUp card mx-auto text-dark" style="width: 20rem;">
+  <article class="card-body">
+    <a href="{{ signup_url }}" class="btn btn-block btn-outline-dark">Sign up</a>
+      <form>
+        <div class="form-group">
+          {% csrf_token %}
+        </div>
+        <div class="form-group">
+          {{ form.as_p }}
+        </div>
+        <div class="form-group"> 
+          <div class="checkbox">
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+            <button class="primaryAction btn btn-block btn-dark" type="submit">{% trans "Sign In" %}</button>
+        </div>                                                          
+      </form>
+  </article>
+</div>
 {% endif %}
-
-<form class="small animated login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="animated primaryAction button" type="submit">{% trans "Sign In" %}</button>
-</form>
 
 {% endblock %}

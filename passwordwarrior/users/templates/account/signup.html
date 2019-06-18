@@ -7,15 +7,28 @@
 {% block content %}
 <h1 class="animated">{% trans "Sign Up" %}</h1>
 
-<p class="small animated">{% blocktrans %}Already have an account? Then please <a class="animated zoomInUp" href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
-<form class="small animated signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="animated button" type="submit">{% trans "Sign Up" %}</button>
-</form>
+<div class="animated zoomInUp card mx-auto text-dark" style="width: 25rem;">
+  <article class="card-body">
+    <a href="{{ login_url }}" class="btn btn-block btn-outline-dark">Sign in</a>
+      <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        <div class="form-group">
+          {% csrf_token %}
+        </div>
+        <div class="form-group">
+          {{ form.as_p }}
+        </div>
+        <div class="form-group"> 
+          <div class="checkbox">
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+            <button class="primaryAction btn btn-block btn-dark" type="submit">{% trans "Sign In" %}</button>
+        </div>                                                          
+      </form>
+  </article>
+</div>
 
 {% endblock %}
