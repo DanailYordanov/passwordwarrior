@@ -3,6 +3,11 @@ html * {
   text-align: center;
 }
 
+body {
+  color: #fff !important;
+  background-color: #212529 !important;
+}
+
 .small {
   font-size: 20px !important;
 }
