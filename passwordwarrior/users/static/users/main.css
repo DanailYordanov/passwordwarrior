@@ -4,44 +4,15 @@ html * {
 }
 
 .small {
-  font-size: 20px !important;
+    font-size: 20px !important;
 }
 
 .medium {
-  font-size: 30px !important;
+	font-size: 30px !important;
 }
 
 .large {
-  font-size: 40px !important;
-}
-
-.text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: auto;
-}
-
-.grid-container {
-  align-content: start;
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-top: 30px;
-  display: grid;
-  grid-gap: 50px;
-  grid-template-columns: repeat(3, minmax(auto, 350px));
-}
-  
-.grid-item {
-  font-size: 30px;
-}
-
-.grid-item-icons {
-  text-align: right;
-}
-
-#NoPasswords {
-  font-size: 40px;
+    font-size: 40px !important;
 }
 
 .button {
