@@ -32,7 +32,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 <div class="animated zoomInUp card mx-auto text-dark" style="width: 20rem;">
   <article class="card-body">
     <a href="{{ signup_url }}" class="btn btn-block btn-outline-dark">Sign up</a>
-      <form>
+      <form class="login" method="POST" action="{% url 'account_login' %}">
         <div class="form-group">
           {% csrf_token %}
         </div>
