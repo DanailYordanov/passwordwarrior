@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<h1 class="animated zoomInUp text-light">{% trans "Sign In" %}</h1>
+<h1 class="animated zoomInUp" style="text-align: center; color: white;">{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
 
@@ -31,15 +31,13 @@
 {% else %}
 <div class="animated zoomInUp card mx-auto text-dark" style="width: 20rem;">
   <article class="card-body">
-    <a href="{{ signup_url }}" class="btn btn-block btn-outline-dark">Sign up</a>
     <form class="login" method="POST" action="{% url 'account_login' %}">
       <div class="form-group">
         {% csrf_token %}
       </div>
       <div class="form-group">
-        {{ form.as_p }}
-      </div>
-      <div class="form-group">
+        {{ form }}
+      <div>
         <div class="checkbox">
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
@@ -47,9 +45,10 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="primaryAction btn btn-block btn-dark" type="submit">{% trans "Sign In" %}</button>
+        <button class="primaryAction btn btn-block btn-secondary" type="submit">{% trans "Sign In" %}</button>
       </div>
     </form>
+    <small>Still don't have an account?<a href="{{ signup_url }}"> Click here</a></small>
   </article>
 </div>
 {% endif %}

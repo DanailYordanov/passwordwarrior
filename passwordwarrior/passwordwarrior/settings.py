@@ -106,7 +106,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ACCOUNT_FORMS = {
     'login': 'users.forms.CustomLoginForm',
-    # 'signup': 'allauth.account.forms.SignupForm',
+    'signup': 'users.forms.CustomSignUpForm',
     # 'add_email': 'allauth.account.forms.AddEmailForm',
     # 'change_password': 'allauth.account.forms.ChangePasswordForm',
     # 'set_password': 'allauth.account.forms.SetPasswordForm',

@@ -5,11 +5,10 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<h1 class="animated zoomInUp text-light">{% trans "Sign Up" %}</h1>
+<h1 class="animated zoomInUp"style="text-align: center; color: white;">{% trans "Sign Up" %}</h1>
 
 <div class="animated zoomInUp card mx-auto text-dark" style="width: 25rem;">
   <article class="card-body">
-    <a href="{{ login_url }}" class="btn btn-block btn-outline-dark">Sign in</a>
     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
       <div class="form-group">
         {% csrf_token %}
@@ -28,6 +27,7 @@
         <button class="primaryAction btn btn-block btn-dark" type="submit">{% trans "Sign In" %}</button>
       </div>
     </form>
+    <small>Already have an account?<a href="{{ login_url }}"> Sign in</a></small>
   </article>
 </div>
 
