@@ -31,22 +31,22 @@
 {% else %}
 <div class="animated zoomInUp card mx-auto text-dark" style="width: 20rem;">
   <article class="card-body">
-    <form class="login" method="POST" action="{% url 'account_login' %}">
+    <form class="login" method="POST" action="{% url 'account_login' %}" novalidate>
       <div class="form-group">
         {% csrf_token %}
       </div>
       <div class="form-group">
         {{ form }}
-      <div>
-        <div class="checkbox">
-          {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
+        <div>
+          <div class="checkbox">
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <button class="primaryAction btn btn-block btn-secondary" type="submit">{% trans "Sign In" %}</button>
-      </div>
+        <div class="form-group">
+          <button class="primaryAction btn btn-block btn-secondary" type="submit">{% trans "Sign In" %}</button>
+        </div>
     </form>
     <small>Still don't have an account?<a href="{{ signup_url }}"> Click here</a></small>
   </article>
