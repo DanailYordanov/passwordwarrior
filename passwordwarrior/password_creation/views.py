@@ -66,7 +66,7 @@ def personal_passwords(request):
 
 class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
     model = Passwords
-    fields = ['app_name', 'password']
+    form_class = PasswordCreationForm
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
 

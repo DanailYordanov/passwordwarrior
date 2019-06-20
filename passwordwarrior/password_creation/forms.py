@@ -15,3 +15,7 @@ class PasswordCreationForm(forms.ModelForm):
     class Meta:
         model = Passwords
         fields = ['app_name', 'password']
+        widgets = {
+            'app_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'AppNameInput', 'placeholder': 'Enter app name'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'id': 'AppPasswordInput', 'placeholder': 'Enter app password'}),
+        }
