@@ -11,11 +11,13 @@ class CharLongForm(forms.Form):
 
 
 class PasswordCreationForm(forms.ModelForm):
+    unhide_password = forms.BooleanField(widget=forms.CheckboxInput(
+        attrs={'id': 'PasswordUnhide', 'onclick': 'passwordunhide();'}), required=False)
 
     class Meta:
         model = Passwords
         fields = ['app_name', 'password']
         widgets = {
             'app_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'AppNameInput', 'placeholder': 'Enter app name'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'id': 'AppPasswordInput', 'placeholder': 'Enter app password'}),
+            'password': forms.TextInput(attrs={'type': 'password', 'class': 'form-control', 'id': 'AppPasswordInput', 'placeholder': 'Enter app password'}),
         }

@@ -5,4 +5,4 @@ function passwordunhide() {
     } else {
         x.type = "password";
     }
-}
+};

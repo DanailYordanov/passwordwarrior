@@ -1,8 +1,6 @@
 from passwordwarrior.settings import SECRET_KEY
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -19,7 +17,7 @@ from cryptography.fernet import Fernet
 
 
 def password_generator(request):
-    if request.method == 'POST':
+    if request.method == 'rePOST':
         form = CharLongForm(request.POST)
         if form.is_valid():
             return redirect("password-success")
@@ -69,6 +67,13 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
     form_class = PasswordCreationForm
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
+    view_var = 'Save a Password'
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonalPasswordCreateView,
+                        self).get_context_data(**kwargs)
+        context.update({'view_var': self.view_var})
+        return context
 
     def form_valid(self, form):
         password = form.cleaned_data.get('password')
@@ -82,9 +87,16 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
 
 class PersonalPasswordUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Passwords
-    fields = ['app_name', 'password']
+    form_class = PasswordCreationForm
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
+    view_var = 'Update a Password'
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonalPasswordUpdateView,
+                        self).get_context_data(**kwargs)
+        context.update({'view_var': self.view_var})
+        return context
 
     def get_object(self, queryset=None):
         return get_object_or_404(Passwords, pk=self.kwargs['pk'])

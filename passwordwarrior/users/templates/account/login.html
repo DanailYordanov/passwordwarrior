@@ -1,56 +1,23 @@
 {% extends "password_creation/base.html" %}
-
-{% load i18n %}
-{% load account socialaccount %}
-
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
-
 {% block content %}
-
-<h1 class="animated zoomInUp" style="text-align: center; color: white;">{% trans "Sign In" %}</h1>
-
-{% get_providers as socialaccount_providers %}
-
-{% if socialaccount_providers %}
-<p class="animated">{% blocktrans with site.name as site_name %}Please sign in with one
-  of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-  for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-<div class="socialaccount_ballot">
-
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
-</div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<div class="card mx-auto text-dark" style="width: 20rem;">
+<h1 class="centered mt-5">Sign In</h1>
+<div class="card mx-auto text-dark {% if form.errors %} animated shake faster{% endif %}" style="width: 20rem;">
   <article class="card-body">
     <form class="login" method="POST" action="{% url 'account_login' %}" novalidate>
-      <div class="form-group">
-        {% csrf_token %}
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group {% if field.errors %} has-error has-feedback {% endif %}">
+        {{ field.label }}:
+        {{ field }}
+        {{ field.errors }}
       </div>
+      {% endfor %}
       <div class="form-group">
-        {{ form }}
-        <div>
-          <div class="checkbox">
-            {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-            {% endif %}
-          </div>
-        </div>
-        <div class="form-group">
-          <button class="primaryAction btn btn-block btn-secondary" type="submit">{% trans "Sign In" %}</button>
-        </div>
+        <button class="primaryAction btn btn-block btn-secondary" type="submit">Sign
+          In</button>
+      </div>
     </form>
-    <small>Still don't have an account?<a href="{{ signup_url }}"> Click here</a></small>
+    <small>Still don't have an account?<a href="{{ signup_url }}" id="SignUpAnchor"> Sign up</a></small>
   </article>
 </div>
-{% endif %}
-
 {% endblock %}

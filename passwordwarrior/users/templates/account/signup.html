@@ -1,34 +1,22 @@
 {% extends "password_creation/base.html" %}
-
-{% load i18n %}
-
-{% block head_title %}{% trans "Signup" %}{% endblock %}
-
 {% block content %}
-<h1 class="animated zoomInUp"style="text-align: center; color: white;">{% trans "Sign Up" %}</h1>
-
-<div class="animated zoomInUp card mx-auto text-dark" style="width: 25rem;">
+<h1 class="centered mt-5">Sign Up</h1>
+<div class="card mx-auto text-dark{% if form.errors %} animated shake faster{% endif %}" style="width: 20rem;">
   <article class="card-body">
-    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-      <div class="form-group">
-        {% csrf_token %}
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group {% if field.errors %}has-error has-feedback{% endif %}">
+        {{ field.label }}:
+        {{ field }}
+        {{ field.errors }}
       </div>
+      {% endfor %}
       <div class="form-group">
-        {{ form.as_p }}
-      </div>
-      <div class="form-group">
-        <div class="checkbox">
-          {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="primaryAction btn btn-block btn-dark" type="submit">{% trans "Sign In" %}</button>
+        <button class="primaryAction btn btn-block btn-secondary" type="submit">Sign Up</button>
       </div>
     </form>
-    <small>Already have an account?<a href="{{ login_url }}"> Sign in</a></small>
+    <small>Already have an account?<a href="{{ login_url }}" id="SignInAnchor"> Sign in</a></small>
   </article>
 </div>
-
 {% endblock %}

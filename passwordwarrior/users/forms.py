@@ -8,7 +8,7 @@ class CustomLoginForm(LoginForm):
         self.fields['login'].widget = forms.EmailInput(
             attrs={'class': 'form-control', 'placeholder': 'Enter email or username'})
         self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': 'Enter password'})
+            attrs={'class': 'form-control', 'placeholder': 'Enter password', 'id': 'LoginPassword'})
 
 
 class CustomSignUpForm(SignupForm):
