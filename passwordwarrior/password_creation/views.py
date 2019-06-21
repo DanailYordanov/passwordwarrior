@@ -68,11 +68,13 @@ class PersonalPasswordCreateView(LoginRequiredMixin, CreateView):
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
     view_var = 'Save a Password'
+    view_button_var = 'Save'
 
     def get_context_data(self, **kwargs):
         context = super(PersonalPasswordCreateView,
                         self).get_context_data(**kwargs)
-        context.update({'view_var': self.view_var})
+        context.update({'view_var': self.view_var,
+                        'view_button_var': self.view_button_var})
         return context
 
     def form_valid(self, form):
@@ -91,11 +93,13 @@ class PersonalPasswordUpdateView(LoginRequiredMixin, UserPassesTestMixin, Update
     template_name = 'password_creation/personal_password_creation.html'
     success_url = reverse_lazy('personal-passwords')
     view_var = 'Update a Password'
+    view_button_var = 'Update'
 
     def get_context_data(self, **kwargs):
         context = super(PersonalPasswordUpdateView,
                         self).get_context_data(**kwargs)
-        context.update({'view_var': self.view_var})
+        context.update({'view_var': self.view_var,
+                        'view_button_var': self.view_button_var})
         return context
 
     def get_object(self, queryset=None):
